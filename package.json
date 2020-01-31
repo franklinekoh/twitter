@@ -1,0 +1,46 @@
+{
+  "name": "twitter",
+  "version": "1.0.0",
+  "description": "This is a set of API endpoint resembles a simple twitter backend service",
+  "main": "server.js",
+  "scripts": {
+    "pretest": "eslint --ignore-path .gitignore .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franklinekoh/twitter.git"
+  },
+  "keywords": [
+    "twitter",
+    "tests"
+  ],
+  "author": "Ekoh Franklin",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-group-routes": "^1.1.0",
+    "express-validator": "^6.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mysql2": "^2.0.0",
+    "nodemon": "^1.19.4",
+    "redis": "^2.8.0",
+    "sequelize": "^5.21.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "sequelize-cli": "^5.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/franklinekoh/twitter/issues"
+  },
+  "homepage": "https://github.com/franklinekoh/twitter#readme"
+}
