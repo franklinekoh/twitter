@@ -2,12 +2,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Follows', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
       follower_id: {
         allowNull: false,
         primaryKey: true,

@@ -6,7 +6,6 @@
  */
 const validator = (schema, property) => {
     return (req, res, next) => {
-
         const { error } = schema.validate(req[property],  { abortEarly: true });
         const valid = error == null;
 

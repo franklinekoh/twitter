@@ -42,7 +42,7 @@ module.exports.login = async (req, res, next) => {
            if (!user.validatePassword(req.body.password))
                res.status(401).json({'message': 'email/password incorrect'});
 
-               res.json({user: user.toAuthJson()})
+               res.json({user: user.toAuthJson()});
         }catch (e) {
             next(e);
         }

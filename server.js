@@ -12,6 +12,8 @@ const isProduction = process.env.NODE_ENV === 'production';
  */
 const authRoute = require('./src/routes/auth');
 const tweetRoute = require('./src/routes/tweet');
+const followRoute = require('./src/routes/follow');
+const timelineRoute = require('./src/routes/timeline');
 
 app.use(express.static('public'));
 /**
@@ -27,6 +29,8 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/tweet', tweetRoute);
+app.use('/api/v1/follow', followRoute);
+app.use('/api/v1/timeline', timelineRoute);
 
 //uncomment for better error handling interface during development
 if (!isProduction) {

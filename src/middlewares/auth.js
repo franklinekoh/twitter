@@ -16,12 +16,7 @@ auth = {
         userProperty: 'payload',
         getToken: getTokenFromHeader
     }),
-    optional: jwt({
-        secret: config.secret,
-        userProperty: 'payload',
-        credentialsRequired: false,
-        getToken: getTokenFromHeader
-    })
+//    ...optional auth options can be added here
 };
 
 module.exports = auth;
