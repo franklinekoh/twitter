@@ -6,4 +6,6 @@ const express = require('express'),
 
 router.post('/login', validator(authSchema.login, 'body'), authController.login);
 
+router.post('/register', validator(authSchema.register, 'body'), authController.register);
+
 module.exports = router;
