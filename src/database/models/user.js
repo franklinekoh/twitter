@@ -22,6 +22,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
 
+  User.associate = function(models) {
+    User.hasMany(models.Post, {
+      foreignKey: 'user_id',
+      as: 'posts'
+    });
+
+    User.hasMany(models.Replies, {
+      foreignKey: 'user_id',
+      as: 'replies'
+    });
+
+    User.hasMany(models.Follow, {
+      foreignKey: 'follower_id',
+      as: 'follows'
+    });
+  };
+
   User.prototype.generateJWT = function() {
     return jwt.sign({
       id: this.id,
@@ -56,8 +73,6 @@ module.exports = (sequelize, DataTypes) => {
   User.isUniquePhone = async function(phone) {
      return await User.findOne({where: {phone}}) === null;
   };
-  User.associate = function(models) {
-    // associations can be defined here
-  };
+
   return User;
 };

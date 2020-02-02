@@ -1,5 +1,13 @@
 const {User} = require('../database/models/');
 
+/**
+ * Registration endpoint
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*|Json|Promise<any>>}
+ */
 module.exports.register = async (req, res, next) => {
         try {
            const isUniqueEmail = await User.isUniqueEmail(req.body.email);
@@ -18,14 +26,23 @@ module.exports.register = async (req, res, next) => {
         }
 };
 
+/**
+ * Login endpoint
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*|Json|Promise<any>>}
+ */
 module.exports.login = async (req, res, next) => {
         try {
            const user = await User.findOne({where: {email: req.body.email}});
            if (!user) return res.status(401).json({'message': 'email/password incorrect'});
 
-           if (!user.validatePassword(req.body.password)) res.status(401).json({'message': 'email/password incorrect'});
+           if (!user.validatePassword(req.body.password))
+               res.status(401).json({'message': 'email/password incorrect'});
 
-               res.status(200).json({user: user.toAuthJson()})
+               res.json({user: user.toAuthJson()})
         }catch (e) {
             next(e);
         }

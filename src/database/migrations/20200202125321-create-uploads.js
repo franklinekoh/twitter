@@ -1,19 +1,19 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Posts', {
+    return queryInterface.createTable('Uploads', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      user_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+      post_id: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        unique: true
       },
-      body: {
-        type: Sequelize.STRING(280)
+      upload_path: {
+        type: Sequelize.STRING(2048)
       },
       createdAt: {
         allowNull: false,
@@ -24,19 +24,19 @@ module.exports = {
         type: Sequelize.DATE
       }
     }).then(() => queryInterface.addConstraint(
-        'Posts',
-['user_id'],
+        'Uploads',
+        ['post_id'],
         {
           type: 'foreign key',
-          name: 'user_id_fk',
+          name: 'post_id_fk',
           references: {
-            table: 'Users',
+            table: 'Posts',
             field: 'id'
           }
         }
     ));
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Posts');
+    return queryInterface.dropTable('Uploads');
   }
 };

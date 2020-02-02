@@ -1,16 +1,19 @@
-const express = require('express'),
-    app = express(),
-    cors = require('cors'),
-    errorhandler = require('errorhandler'),
-    bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const errorhandler = require('errorhandler');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 /**
- *
+ *  Routes
  */
 const authRoute = require('./src/routes/auth');
+const tweetRoute = require('./src/routes/tweet');
+
+app.use(express.static('public'));
 /**
  * Cors
  */
@@ -19,10 +22,13 @@ app.use(cors());
  * JSON and urlencoded body parser
  */
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));
+
 
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/tweet', tweetRoute);
 
+//uncomment for better error handling interface during development
 if (!isProduction) {
     app.use(errorhandler({ log: true }));
 }

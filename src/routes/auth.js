@@ -1,8 +1,8 @@
-const express = require('express'),
-    router = express.Router(),
-    validator = require('../middlewares/validator'),
-    authSchema = require('../validations/auth');
-    authController = require('../controllers/auth');
+const express = require('express');
+const router = express.Router();
+const validator = require('../middlewares/validator');
+const authSchema = require('../validations/auth');
+const authController = require('../controllers/auth');
 
 router.post('/login', validator(authSchema.login, 'body'), authController.login);
 
