@@ -1,5 +1,6 @@
 const {Post, Uploads, Replies, User} = require('../database/models');
 const { Op } = require('sequelize');
+const util = require('../utils');
 
 /**
  * post tweet endpoint
@@ -74,12 +75,20 @@ module.exports.reply = async (req, res, next) => {
     }
 };
 
+/**
+ * Search endpoint
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*|Json|Chai.Assertion|Promise<any>>}
+ */
 module.exports.search = async (req, res, next) => {
         try {
             const q = req.query.q;
-            const type = req.query.type; //twitter ui separates search result into different categories. I felt it was ok
+            const type = req.query.type; //twitter ui separates search result into different
+            // categories (top,latest,people,photos etc.). I felt it was ok
             // separate this search into two cat. users and tweets
-
 
             if (type === 'users') {
              var data = await User.findAll({
@@ -100,7 +109,7 @@ module.exports.search = async (req, res, next) => {
             }
             
             if (type === 'tweets') {
-                data = await Post.findAll({
+                data = await Post.findAll(util.paginate({
                     where: {
                         body: {
                             [Op.like]: `%${q}%`
@@ -109,10 +118,10 @@ module.exports.search = async (req, res, next) => {
                     order: [
                         ['createdAt', 'DESC']
                     ]
-                });
+                }), parseInt(req.query.page) || 1, parseInt(req.query.size) || 100);
             }
 
-            return res.json(data);
+            return res.json({data: data});
         }catch (e) {
             next(e);
         }

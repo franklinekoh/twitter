@@ -66,3 +66,4 @@ const server = app.listen( process.env.APP_PORT || 3000, function(){
     console.log('Listening on port ' + server.address().port);
 });
 
+module.exports = server;

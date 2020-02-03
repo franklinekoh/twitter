@@ -38,7 +38,7 @@ module.exports.get = async (req, res, next) => {
             }]
         }, parseInt(req.query.page) || 1, parseInt(req.query.size) || 100));
 
-       return  res.json(post);
+       return  res.json({data: post});
     }catch (e) {
         next(e);
     }
