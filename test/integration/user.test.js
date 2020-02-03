@@ -34,7 +34,7 @@ describe('user registration', () => {
             .send({
                 name: 'Ekoh Franklin',
                 email: 'ekohfranklin@gmail.com',
-                bio: 'Dial my number or email',
+                bio: 'Hola! via email or phone',
                 phone: '08178018780',
                 username: '@_thefrank',
                 password: 'Mskskd787'
@@ -51,18 +51,35 @@ describe('user registration', () => {
 });
 
 describe('user login', () => {
-    it('should test for incorrect credentials', function (done) {
+    it('should test for correct credentials', function (done) {
         chai.request(app)
-            .post('/api/v1/auth/register')
+            .post('/api/v1/auth/login')
             .send({
-                email: 'ekohfranklin@gmail.com',
+                user_id: 'ekohfranklin@gmail.com',
                 password: 'Mskskd787'
             })
             .end((err, res) => {
                 if (!err){
-                    res.status.should.to.be.oneOf([201]);
+                    res.status.should.to.be.eq(200);
                     res.body.should.be.a('object');
                     res.body.should.have.property('user');
+                }
+                done();
+            });
+    });
+
+    it('should test for wrong credentials', function (done) {
+        chai.request(app)
+            .post('/api/v1/auth/login')
+            .send({
+                user_id: 'ekohfrksjd@gmail.com',
+                password: 'Mskskd'
+            })
+            .end((err, res) => {
+                if (!err){
+                    res.status.should.to.be.eq(401);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message').eq('incorrect credentials');
                 }
                 done();
             });

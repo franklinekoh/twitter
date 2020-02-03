@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
-    "test": "mocha 'test/unit/' 'test/integration/'",
+    "test": "mocha 'test/integration/' 'test/unit/'",
     "start": "nodemon server",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate"
