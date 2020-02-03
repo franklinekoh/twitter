@@ -1,4 +1,5 @@
 const {User} = require('../database/models/');
+const { Op } = require('sequelize');
 
 /**
  * Registration endpoint
@@ -36,11 +37,21 @@ module.exports.register = async (req, res, next) => {
  */
 module.exports.login = async (req, res, next) => {
         try {
-           const user = await User.findOne({where: {email: req.body.email}});
-           if (!user) return res.status(401).json({'message': 'email/password incorrect'});
+            const user_id = req.body.user_id;
+            const password = req.body.password;
+           const user = await User.findOne({
+               where: {
+                   [Op.or]: {
+                       email: user_id,
+                       username: user_id,
+                       phone: user_id
+                   }
+               }
+           });
+           if (!user) return res.status(401).json({'message': 'incorrect credentials'});
 
-           if (!user.validatePassword(req.body.password))
-               res.status(401).json({'message': 'email/password incorrect'});
+           if (!user.validatePassword(password))
+               res.status(401).json({'message': 'incorrect credentials'});
 
                res.json({user: user.toAuthJson()});
         }catch (e) {

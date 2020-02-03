@@ -12,7 +12,7 @@ const auth = {
             .message('"password" must be 8 characters long, and must contain at least 1 lowercase, 1 uppercase and 1 numeric character')
     }),
     login: Joi.object().keys({
-        email: Joi.string().email().required(),
+        user_id: Joi.string().required(),
         password: Joi.string().required()
     })
 };
