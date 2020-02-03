@@ -133,7 +133,11 @@ module.exports.search = async (req, res, next) => {
                             },
                             order: [
                                 ['createdAt', 'DESC']
-                            ]
+                            ],
+                            include: [{
+                                model: Uploads,
+                                as: 'uploads'
+                            }]
                         }), parseInt(req.query.page) || 1, parseInt(req.query.size) || 100);
                         redisClient.set(config.redis.keys.getSearchTweet, JSON.stringify(data), 'EX', config.redis.exp);
                     } else {

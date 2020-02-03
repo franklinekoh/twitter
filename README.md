@@ -13,14 +13,21 @@ A set of API endpoint that mimics basic twitter features
 -   run  `npm start`
 
 ### test
+-   Please note that I only wrote the unit and integration test for the users module,
+    due to time constraint
 -   Follow the instructions in the Local Section Setup Above.
 -   navigate to database folder from root run `cd src/database`
 -   run `npx sequelize-cli db:migrate`
 -   run `npm test`
 -   if you experience eslint errors run `npm pretest -- -- fix`
 -   visit `http://localhost:${APP_PORT}` 
+-   to access auth protected routes pass `Authorization` as header parameter
 
+### Documentation
+#### local doc
+-   visit `http://localhost:${APP_PORT}` 
+#### live doc
+-   visit https://arcane-earth-46866.herokuapp.com/
 ### Live Url
-
 - https://arcane-earth-46866.herokuapp.com/
 

@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const errorhandler = require('errorhandler');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./doc/swagger');
 require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -31,6 +33,11 @@ app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/tweet', tweetRoute);
 app.use('/api/v1/follow', followRoute);
 app.use('/api/v1/timeline', timelineRoute);
+
+/**
+ * documentation
+ */
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //uncomment for better error handling interface during development
 if (!isProduction) {

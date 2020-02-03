@@ -44,13 +44,8 @@ module.exports.get = async (req, res, next) => {
                 }, parseInt(req.query.page) || 1, parseInt(req.query.size) || 100));
 
                 redisClient.set(config.redis.keys.getTimeline, JSON.stringify(post), 'EX', config.redis.exp);
-                console.log('uncached data');
                 return  res.json({data: post});
             }else {
-                // redisClient.del(config.redis.keys.getTimeline, function (err, succeeded) {
-                //     console.log(succeeded); // will be true if successfull
-                // });
-                console.log('cached data');
                 return  res.json({data: JSON.parse(data)});
             }
 

@@ -1,0 +1,574 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A set of API endpoint that mimics basic twitter features",
+    "version": "1.0",
+    "title": "twitter clone API",
+    "contact": {
+      "email": "ekohfranklin@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "twitter clone API",
+      "description": "API for twitter clone"
+    }
+  ],
+"host": "arcane-earth-46866.herokuapp.com",
+  "basePath": "/api/v1",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/auth/login":{
+      "post": {
+        "tags": ["auth"],
+        "parameters": [{
+          "required": true,
+          "in": "body",
+          "name": "Body",
+          "description": "login params",
+          "schema": {
+          "$ref": "#definitions/loginParams"
+        }
+        }],
+        "description": "login endpoint",
+        "responses": {
+          "200": {
+            "description": "successfully logged in",
+            "schema": {
+              "$ref": "#definitions/userOk"
+            }
+          },
+          "401": {
+            "description": "Incorrect credentials",
+            "schema": {
+              "$ref": "#definitions/loginResponseError"
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#definitions/422Error"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "parameters": [{
+        "required": true,
+        "in": "body",
+        "name": "Body",
+        "description": "register params",
+        "schema": {
+          "$ref": "#definitions/registerParams"
+        }
+      }],
+        "responses": {
+          "200": {
+            "description": "user registration complete",
+            "schema": {
+              "$ref": "#definitions/userOk"
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#definitions/registerValidationError"
+            }
+          }
+        }
+    }
+    },
+    "/follow": {
+      "post": {
+        "tags": ["follow"],
+        "parameters": [{
+          "required": true,
+          "in": "body",
+          "name": "Body",
+          "description": "follow a user",
+          "schema": {
+            "$ref": "#definitions/followParams"
+          }
+        },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer <token>",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Follow successful",
+            "schema": {
+              "$ref": "#definitions/followOk"
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#definitions/422Error"
+            }
+          },
+          "403": {
+            "description": "Can't follow your self. if you pass your id as followed_id",
+            "schema": {
+              "$ref": "#definitions/follow403"
+            }
+          }
+        }
+      }
+    },
+    "/tweet/post": {
+      "post": {
+        "tags": [
+          "tweet"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "in": "formData",
+            "name": "photos",
+            "description": "post tweet",
+            "type": "file"
+          },
+          {
+            "required": true,
+            "in": "formData",
+            "name": "body",
+            "description": "post tweet",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer <token>",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "tweet posting completed",
+            "schema": {
+              "$ref": "#definitions/postTweetOk"
+            }
+          }
+        }
+      }
+      },
+    "/tweet/reply": {
+      "post": {
+        "tags": [
+          "tweet"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "in": "formData",
+            "name": "photos",
+            "description": "post tweet",
+            "type": "file"
+          },
+          {
+            "required": true,
+            "in": "formData",
+            "name": "body",
+            "description": "post tweet",
+            "type": "string"
+          },
+          {
+            "required": true,
+            "in": "formData",
+            "name": "post_id",
+            "description": "post_id that is being replied to",
+            "type": "integer"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer <token>",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "reply posting completed",
+            "schema": {
+              "$ref": "#definitions/postTweetOk"
+            }
+          }
+        }
+      }
+    },
+    "/tweet/search": {
+      "get": {
+        "tags": ["tweet"],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "search key",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "description": "tweets or users",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "the current page for pagination",
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "description": "the current page size for pagination",
+            "type": "integer"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer <token>",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "tweet search complete",
+            "schema": {
+              "$ref": "#definitions/timelineOk"
+            }
+          },
+          "422": {
+            "description": "tweet search complete",
+            "schema": {
+              "$ref": "#definitions/422Error"
+            }
+          }
+        }
+      }
+    },
+    "/timeline": {
+      "get": {
+        "tags": ["timeline"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "the current page for pagination",
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "description": "the current page size for pagination",
+            "type": "integer"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer <token>",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "timeline retrieved",
+            "schema": {
+              "$ref": "#definitions/timelineOk"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "searchTweetOk": {
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 3
+              },
+              "body": {
+                "type": "string",
+                "example": "Hi!"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2020-02-02T19:48:58.000Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2020-02-02T19:48:58.000Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "timelineOk": {
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 3
+              },
+              "body": {
+                "type": "string",
+                "example": "Hi!"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2020-02-02T19:48:58.000Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2020-02-02T19:48:58.000Z"
+              },
+              "uploads": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "post_id": {
+                      "type": "integer",
+                      "example": "5"
+                    },
+                    "upload_path": {
+                      "type": "string",
+                      "example": "uploads/posts/1580672938390-table.PNG"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2020-02-02T19:48:58.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2020-02-02T19:48:58.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "postObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "user_id": {
+          "type": "integer",
+          "example": 3
+        },
+        "body": {
+          "type": "string",
+          "example": "Hi!"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2020-02-02T19:48:58.000Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2020-02-02T19:48:58.000Z"
+        }
+      }
+    },
+    "postTweetOk": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "post creation completed"
+        }
+      }
+    },
+    "replyTweetOk": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Reply creation completed"
+        }
+      }
+    },
+    "followParams": {
+      "properties": {
+        "followed_id": {
+          "type": "integer",
+          "example": 1
+        }
+      }
+    },
+    "followOk": {
+      "properties": {
+          "message": {
+            "type": "string",
+            "example": "follow successful"
+          }
+      }
+    },
+    "follow403": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Unauthorized: cannot follow self"
+        }
+      }
+    },
+    "422Error": {
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "\"specified key\"is required"
+        }
+      }
+    },
+    "loginParams": {
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "example": "@_thefrank"
+        },
+        "password": {
+          "type": "string",
+          "example": "secret"
+        }
+      }
+    },
+    "registerParams": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Ekoh Franklin"
+        },
+        "email": {
+          "type": "string",
+          "example": "ekohfranklin@gmail.com"
+        },
+        "bio": {
+          "type": "string",
+          "example": "Hi!"
+        },
+        "phone": {
+          "type": "string",
+          "example": "08178018780"
+        },
+        "username": {
+          "type": "string",
+          "example": "@_thefrank"
+        },
+        "password": {
+          "type": "string",
+          "example": "secret"
+        }
+      }
+    },
+    "registerValidationError": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "email already exists"
+        }
+      }
+    },
+    "authValidationError": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "'email' is required"
+        }
+      }
+    },
+    "loginResponseError": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "incorrect credentials"
+        }
+      }
+    },
+    "userOk": {
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJAX3RoZWZyYW5rIiwiZXhwaXJlc0luIjoiMWQiLCJpYXQiOjE1ODA3NTAyOTl9.MQhNGB6BbfprjOdTXOZxtErfWOnJr318jHd7l6pwkn0"
+            },
+            "name": {
+              "type": "string",
+              "example": "Ekoh Franklin"
+            },
+            "email": {
+              "type": "string",
+              "example": "ekohfranklin@gmail.com"
+            },
+            "bio": {
+              "type": "string",
+              "example": "Hola! vial email or phone"
+            },
+            "phone": {
+              "type": "string",
+              "example": "08178018780"
+            },
+            "username": {
+              "type": "string",
+              "example": "@_thefrank"
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
