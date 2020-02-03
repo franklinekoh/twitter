@@ -14,12 +14,13 @@ A set of API endpoint that mimics basic twitter features
 
 ### test
 -   Follow the instructions in the Local Section Setup Above.
+-   navigate to database folder from root run `cd src/database`
 -   run `npx sequelize-cli db:migrate`
 -   run `npm test`
--   if you experience eslint errors run 'npm pretest -- -- fix'
+-   if you experience eslint errors run `npm pretest -- -- fix`
 -   visit `http://localhost:${APP_PORT}` 
 
 ### Live Url
 
-- https://frozen-tor-36953.herokuapp.com/
+- https://arcane-earth-46866.herokuapp.com/
 
