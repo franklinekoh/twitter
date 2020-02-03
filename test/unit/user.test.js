@@ -89,5 +89,5 @@ describe('User model functions', () => {
     it('should return false if phone already exists', async function () {
         assert.equal(await User.isUniqueUsername('@_thefrank'), false);
     });
-    
+
 });
