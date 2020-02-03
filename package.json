@@ -53,5 +53,8 @@
   "bugs": {
     "url": "https://github.com/franklinekoh/twitter/issues"
   },
-  "homepage": "https://github.com/franklinekoh/twitter#readme"
+  "homepage": "https://github.com/franklinekoh/twitter#readme",
+  "engines": {
+    "node": "12.9.1"
+  }
 }
