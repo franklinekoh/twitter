@@ -62,7 +62,7 @@ app.use(function(err, req, res, next) {
         }});
 });
 
-const server = app.listen( process.env.APP_PORT || 3000, function(){
+const server = app.listen( process.env.PORT || 5000, function(){
     console.log('Listening on port ' + server.address().port);
 });
 
