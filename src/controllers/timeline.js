@@ -15,7 +15,7 @@ const config = require('../config');
 module.exports.get = async (req, res, next) => {
     try {
 
-        redisClient.get(config.redis.keys.getTimeline, async (err, data) => {
+        redisClient.get(config.redis.keys.getTimeline+':'+req.payload.id, async (err, data) => {
             if (!data) {
                 const follow = await Follow.findAll({attributes: ['followed_id'], where: {
                         follower_id: req.payload.id
@@ -42,8 +42,8 @@ module.exports.get = async (req, res, next) => {
                         as: 'uploads'
                     }]
                 }, parseInt(req.query.page) || 1, parseInt(req.query.size) || 100));
-
-                redisClient.set(config.redis.keys.getTimeline, JSON.stringify(post), 'EX', config.redis.exp);
+                
+                redisClient.set(config.redis.keys.getTimeline +':'+req.payload.id, JSON.stringify(post), 'EX', config.redis.exp);
                 return  res.json({data: post});
             }else {
                 return  res.json({data: JSON.parse(data)});

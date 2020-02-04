@@ -20,8 +20,8 @@ A set of API endpoint that mimics basic twitter features
 -   run `npx sequelize-cli db:migrate`
 -   run `npm test`
 -   if you experience eslint errors run `npm pretest -- -- fix`
--   visit `http://localhost:${APP_PORT}` 
--   to access auth protected routes pass `Authorization` as header parameter
+-   visit `http://localhost:${PORT}` 
+-   to access auth protected routes pass `Authorization` as header parameter and `Bearer <jwt token>` as value
 
 ### Documentation
 #### local doc
@@ -30,4 +30,13 @@ A set of API endpoint that mimics basic twitter features
 -   visit https://arcane-earth-46866.herokuapp.com/
 ### Live Url
 - https://arcane-earth-46866.herokuapp.com/
+- Please note that you may get a connection timeout error. Like so
+`{
+     "errors": {
+         "message": "connect ETIMEDOUT",
+         "error": {}
+     }
+ }` 
+  This is because this app was deployed to heroku free dyno.
+  In this case. please try again with a faster internet.
 
