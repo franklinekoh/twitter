@@ -15,7 +15,7 @@ const config = require('../config');
 module.exports.post = async (req, res, next) => {
     try {
         if (!req.body.body && req.files.length === 0)
-            return res.status(400).json({'message': 'bad request: body or photos is required'});
+            return res.status(422).json({'message': 'body or photos is required'});
 
         const post = await Post.create({
             user_id: req.payload.id,
@@ -47,6 +47,9 @@ module.exports.reply = async (req, res, next) => {
     try {
         if (!req.body.post_id)
             return res.status(422).json({'message': 'post_id is required'});
+
+        if (!req.body.body && req.files.length === 0)
+            return res.status(422).json({'message': 'body or photos is required'});
 
         const post = await Post.create({ //create a new post. a reply is also a post on twitter
             user_id: req.payload.id,
@@ -146,7 +149,7 @@ module.exports.search = async (req, res, next) => {
                     return res.json({data: data});
                 });
             }
-
+            return res.json({data: {}});
         }catch (e) {
             next(e);
         }
