@@ -85,6 +85,12 @@
             "schema": {
               "$ref": "#definitions/registerValidationError"
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
+            }
           }
         }
     }
@@ -127,6 +133,12 @@
             "schema": {
               "$ref": "#definitions/follow403"
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
+            }
           }
         }
       }
@@ -138,14 +150,14 @@
         ],
         "parameters": [
           {
-            "required": true,
+            "required": false,
             "in": "formData",
             "name": "photos",
             "description": "post tweet",
             "type": "file"
           },
           {
-            "required": true,
+            "required": false,
             "in": "formData",
             "name": "body",
             "description": "post tweet",
@@ -165,6 +177,12 @@
             "schema": {
               "$ref": "#definitions/postTweetOk"
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
+            }
           }
         }
       }
@@ -176,14 +194,14 @@
         ],
         "parameters": [
           {
-            "required": true,
+            "required": false,
             "in": "formData",
             "name": "photos",
             "description": "post tweet",
             "type": "file"
           },
           {
-            "required": true,
+            "required": false,
             "in": "formData",
             "name": "body",
             "description": "post tweet",
@@ -209,6 +227,12 @@
             "description": "reply posting completed",
             "schema": {
               "$ref": "#definitions/postTweetOk"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
             }
           }
         }
@@ -266,6 +290,12 @@
             "schema": {
               "$ref": "#definitions/422Error"
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
+            }
           }
         }
       }
@@ -302,12 +332,34 @@
             "schema": {
               "$ref": "#definitions/timelineOk"
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#definitions/401Error"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "401Error": {
+      "properties": {
+        "errors": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "No authorization token was found"
+            },
+            "error": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
     "searchTweetOk": {
       "properties": {
         "data": {
